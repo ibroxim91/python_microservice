@@ -3,8 +3,13 @@ import pika
 import asyncio
 from fastapi import FastAPI
 import telebot 
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
-bot = telebot.TeleBot('922621327:AAEYSQEl1KFexPsaI2EFjdpb5A5qu8C0JjQ')
+TOKEN = os.environ.get('BOT_TOKEN', None)
+
+bot = telebot.TeleBot(TOKEN)
 
 
 app = FastAPI()
