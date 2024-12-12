@@ -1,15 +1,12 @@
 # service2/Dockerfile
 FROM python:3.9-slim
+
+# Netcat o'rnatish uchun mos paketni o'rnatish
+# RUN apt-get update && apt-get install -y netcat-openbsd && apt-get clean
+
 WORKDIR /app
+COPY . /app
 
-# requirements.txt faylini konteynerga ko'chiramiz
-COPY requirements.txt /app/
+# RUN chmod +x wait-for-it.sh
 
-# FastAPI ilovasini ko'chirish
-COPY . /app/
-
-# Kutubxonalarni o'rnatish
-RUN  pip install --upgrade pip
-RUN pip install -r requirements.txt
-
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001"]
+CMD [ "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001"]

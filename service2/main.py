@@ -2,16 +2,24 @@
 import pika
 import asyncio
 from fastapi import FastAPI
+import telebot 
+
+bot = telebot.TeleBot('922621327:AAEYSQEl1KFexPsaI2EFjdpb5A5qu8C0JjQ')
 
 
 app = FastAPI()
-
+@app.get('/')
+def main():
+    return {'message': 'Service 2 is running'}
 
 async def send_email(body: str):
     print("Xabar emailga jo‘natildi:", body)
+    bot.send_message(-1001234567890, body )
 
 def callback(ch, method, properties, body):
     asyncio.run(send_email(body.decode('utf-8')))
+    ch.basic_ack(delivery_tag=method.delivery_tag)
+
 
 def start_consumer():
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq'))
